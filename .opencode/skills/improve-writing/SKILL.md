@@ -1,31 +1,31 @@
 ---
 name: improve-writing
-description: Polish writing for clarity, flow, and readability without changing meaning. Use when asked to improve, polish, or edit a draft, essay, email, or document.
+description: Polish writing for clarity, flow, readability, and professionalism without changing meaning or voice - fixes grammar, tightens sentences, refines wording and phrasing, and smooths transitions. Use when asked to improve, polish, refine, or edit a draft, essay, email, or document.
 ---
 
 # Improve Writing
 
-Generic writing polish: tighten sentences, fix awkward phrasing, improve readability.
+Make writing clearer, smoother, and more professional while preserving the author's meaning, tone, and style.
 
 ## When to use
 
-- Polish writing for clarity, flow, and readability without changing meaning. Use when asked to improve, polish, or edit a draft, essay, email, or document.
+- Polish writing for clarity, flow, readability, and professionalism without changing meaning or voice - fixes grammar, tightens sentences, refines wording and phrasing, and smooths transitions. Use when asked to improve, polish, refine, or edit a draft, essay, email, or document.
 
 ## Workflow
 
 1. Read the full text to understand intent and tone.
-2. Fix grammar, punctuation, and spelling errors first.
-3. Tighten wordy sentences; cut filler words (very, really, just, that).
-4. Replace vague or weak verbs with precise ones.
-5. Improve sentence flow: break up run-ons, connect choppy fragments.
-6. Check paragraph structure - one clear idea per paragraph.
-7. Preserve the original meaning, voice, and facts throughout.
+2. Pass 1 - Correct: fix grammar, punctuation, and spelling errors.
+3. Pass 2 - Clarity: tighten wordy sentences; cut filler words (very, really, just, that); replace vague or weak verbs with precise ones; rewrite ambiguous or overloaded sentences.
+4. Pass 3 - Flow: improve transitions and sentence rhythm; vary structure; break up run-ons and connect choppy fragments.
+5. Pass 4 - Polish: refine word choice and phrasing for more natural, professional language without flattening voice; check paragraph structure - one clear idea per paragraph.
+6. Pass 5 - Verify: re-read against the original; confirm meaning, tone, and style survived; if nothing needs changing, say so.
 
 ## Output format
 
-The polished version of the full text.
+The full revised text, optionally followed by a brief change-log of the main improvements.
 
 ## Constraints
 
+- Preserve the author's voice and original meaning - this is the core requirement.
 - Never change meaning or introduce new information.
-- Do not rewrite the author's voice into a generic style.
+- Do not inflate the text.
