@@ -1,0 +1,10 @@
+# Secrets — never commit
+.env
+.opencode/.env
+
+# Downloaded Notion data (personal content, re-download anytime)
+notion-data/
+
+# Python
+__pycache__/
+*.pyc
