@@ -8,3 +8,8 @@ notion-data/
 # Python
 __pycache__/
 *.pyc
+quiz
+.trash
+trash
+# ignore all file .DS_Store in the repository
+.DS_Store

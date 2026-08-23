@@ -1,0 +1,230 @@
+{
+  "main": {
+    "id": "faed4c682b7b3ff9",
+    "type": "split",
+    "children": [
+      {
+        "id": "d3085c46341f7bf2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "29940ac59744bb17",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "ktoeic-introductions.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "ktoeic-introductions"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "7526c146c5a71ad6",
+    "type": "split",
+    "children": [
+      {
+        "id": "719e757007dac4b4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2d48b4237f0dc4cf",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "689c80b293ecc82e",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "l but does provide a lot of time off from",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "6dc21055513d3587",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "2d3524cc13380b0e",
+    "type": "split",
+    "children": [
+      {
+        "id": "c1b6ffc83a79633c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "97f2b3682e8efcf6",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "toeic-outlines/01-workplace-working-conditions.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "de7cef8be0fde70f",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "toeic-outlines/01-workplace-working-conditions.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "1b295c20de6809d4",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "0fdf7c0d5fb11323",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "b396896d84c84081",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "toeic-outlines/01-workplace-working-conditions.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "29940ac59744bb17",
+  "lastOpenFiles": [
+    "trash/toeic-outlines/08-society-government.md",
+    "trash/toeic-outlines/07-company-service.md",
+    "trash/toeic-outlines/06-business-career-success.md",
+    "trash/toeic-outlines/05-personal-life.md",
+    "trash/toeic-outlines/04-leadership-management.md",
+    "trash/toeic-outlines/03-education-learning.md",
+    "trash/toeic-outlines/02-career-choice-path.md",
+    "trash/toeic-outlines/01-workplace-working-conditions.md",
+    "trash/toeic-outlines/00-index.md",
+    "trash/toeic-outlines",
+    "trash",
+    "toeic-live-concert-vs-home.md",
+    "notion-data/collocation/pages.json",
+    "notion-data/collocation/database.json",
+    "notion-data/collocation/data.md",
+    "notion-data/collocation",
+    "notion-data/popular_structure/pages.json",
+    "notion-data/popular_structure/database.json",
+    "notion-data/popular_structure/data.md",
+    "notion-data/popular_structure",
+    "notion-data",
+    "toeic-teamwork-pros-cons.md",
+    "ktoeic-introductions.md",
+    "toeic-specialist-vs-generalist.md",
+    "toeic-speaking-opinion-airport.md",
+    "toeic-social-media-blocking.md",
+    "toeic-social-events.md",
+    "toeic-shorter-vacations.md",
+    "toeic-self-employment.md",
+    "toeic-retirement-choice.md",
+    "toeic-praising-employees.md",
+    "toeic-parents-vs-teachers.md",
+    "toeic-onthejob-training-vs-classes.md",
+    "toeic-low-salary-vacation.md",
+    "toeic-living-near-work.md",
+    "quiz/notion-data/popular_structure/pages.json"
+  ]
+}

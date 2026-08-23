@@ -1,0 +1,108 @@
+{
+  "$comment": "Annotation presets for the english-structure-highlight skill. Each preset is a complete Notion rich_text `annotations` object — always send every flag explicitly. Colors are standard Notion font colors.",
+  "presets": {
+    "subject_yellow": {
+      "bold": false,
+      "italic": false,
+      "strikethrough": false,
+      "underline": false,
+      "code": false,
+      "color": "yellow"
+    },
+    "verb_red_bold": {
+      "bold": true,
+      "italic": false,
+      "strikethrough": false,
+      "underline": false,
+      "code": false,
+      "color": "red"
+    },
+    "object_blue_italic": {
+      "bold": false,
+      "italic": true,
+      "strikethrough": false,
+      "underline": false,
+      "code": false,
+      "color": "blue"
+    },
+    "relative_gray": {
+      "bold": false,
+      "italic": false,
+      "strikethrough": false,
+      "underline": false,
+      "code": false,
+      "color": "gray"
+    },
+    "default": {
+      "bold": false,
+      "italic": false,
+      "strikethrough": false,
+      "underline": false,
+      "code": false,
+      "color": "default"
+    }
+  },
+  "alternatives": {
+    "$comment": "Use when the user prefers background highlights over font colors, or when yellow font is hard to read on white.",
+    "subject_yellow_background": {
+      "bold": false,
+      "italic": false,
+      "strikethrough": false,
+      "underline": false,
+      "code": false,
+      "color": "yellow_background"
+    }
+  },
+  "example_segments": {
+    "$comment": "Sentence: 'Loyal employees are a company’s most precious asset. However, in today’s competitive job market, salary alone is no longer enough to keep people at their desks.' Concatenating all `text.content` values must equal the original string exactly. This array is the `self-written` cell (index 3) of a table_row payload: { type: 'table_row', table_row: { cells: [ ...otherCellsUntouched, EXAMPLE_SEGMENTS, ...otherCellsUntouched ] } }",
+    "segments": [
+      {
+        "type": "text",
+        "annotations": { "$ref": "#/presets/subject_yellow" },
+        "text": { "content": "Loyal employees" }
+      },
+      {
+        "type": "text",
+        "annotations": { "$ref": "#/presets/verb_red_bold" },
+        "text": { "content": " are" }
+      },
+      {
+        "type": "text",
+        "annotations": { "$ref": "#/presets/object_blue_italic" },
+        "text": { "content": " a company’s most precious asset" }
+      },
+      {
+        "type": "text",
+        "annotations": { "$ref": "#/presets/default" },
+        "text": { "content": ". However, in today’s competitive job market, " }
+      },
+      {
+        "type": "text",
+        "annotations": { "$ref": "#/presets/subject_yellow" },
+        "text": { "content": "salary alone" }
+      },
+      {
+        "type": "text",
+        "annotations": { "$ref": "#/presets/verb_red_bold" },
+        "text": { "content": " is" }
+      },
+      {
+        "type": "text",
+        "annotations": { "$ref": "#/presets/object_blue_italic" },
+        "text": { "content": " no longer enough" }
+      },
+      {
+        "type": "text",
+        "annotations": { "$ref": "#/presets/default" },
+        "text": { "content": " to keep people at their desks." }
+      }
+    ]
+  },
+  "update_block_payload_skeleton": {
+    "$comment": "Skeleton for notion_update_block on a table row. cells must contain ALL columns of the row; untouched cells are copied byte-for-byte from notion_retrieve_block output. NEVER double-nest a cell ([[{}]] fails with 400 validation_error).",
+    "type": "table_row",
+    "table_row": {
+      "cells": ["<cell_0_flat_array>", "<cell_1_flat_array>", "<cell_2_flat_array>", "<cell_3_formatted_segments>", "<cell_4_flat_array>"]
+    }
+  }
+}
