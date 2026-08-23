@@ -1,5 +1,5 @@
 {
-  "$comment": "Annotation presets for the english-structure-highlight skill. Each preset is a complete Notion rich_text `annotations` object — always send every flag explicitly. Colors are standard Notion font colors.",
+  "$comment": "Annotation presets for the english-structure-highlight skill. Each preset is a complete Notion rich_text `annotations` object — always send every flag explicitly. Colors are standard Notion font colors. Default legend has 7 layers: subject / verb / object / relative clause / comparative / object complement / collocation overlay.",
   "presets": {
     "subject_yellow": {
       "bold": false,
@@ -33,6 +33,31 @@
       "code": false,
       "color": "gray"
     },
+    "comparative_pink": {
+      "bold": false,
+      "italic": false,
+      "strikethrough": false,
+      "underline": false,
+      "code": false,
+      "color": "pink"
+    },
+    "object_complement_blue_underline": {
+      "bold": false,
+      "italic": false,
+      "strikethrough": false,
+      "underline": true,
+      "code": false,
+      "color": "blue"
+    },
+    "collocation_default_italic": {
+      "$comment": "OPT-IN ONLY. Not part of the default legend: default-territory text must stay pure default (see SKILL.md Core Rule 'Default means untouched'). Use this preset only when the user explicitly asks to mark standalone collocations outside colored segments.",
+      "bold": false,
+      "italic": true,
+      "strikethrough": false,
+      "underline": false,
+      "code": false,
+      "color": "default"
+    },
     "default": {
       "bold": false,
       "italic": false,
@@ -52,6 +77,11 @@
       "code": false,
       "color": "yellow_background"
     }
+  },
+  "collocation_overlay": {
+    "$comment": "Collocation is an OVERLAY layer, not a standalone color. Rule: take the segment's existing role annotations and set italic=true, keeping the role's color. The overlay lands ONLY on already-colored object/complement segments (blue family) — e.g. collocated object 'reduce stress' stays blue+italic (already italic, unchanged). Chunks lying in default territory are left completely untouched: default text = pure default state, every flag false (see SKILL.md Core Rule 'Default means untouched'). Never add italic to verbs/subjects/relative clauses solely because they belong to a chunk — grammar roles always win.",
+    "apply": "merge { italic: true } into existing annotations of blue-family segments only",
+    "standalone_preset": "#/presets/collocation_default_italic (opt-in only)"
   },
   "example_segments": {
     "$comment": "Sentence: 'Loyal employees are a company’s most precious asset. However, in today’s competitive job market, salary alone is no longer enough to keep people at their desks.' Concatenating all `text.content` values must equal the original string exactly. This array is the `self-written` cell (index 3) of a table_row payload: { type: 'table_row', table_row: { cells: [ ...otherCellsUntouched, EXAMPLE_SEGMENTS, ...otherCellsUntouched ] } }",
