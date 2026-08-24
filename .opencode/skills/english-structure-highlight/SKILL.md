@@ -77,6 +77,7 @@ Hard-won pitfalls — do not skip:
 - Valid `color` values: `default, gray, brown, orange, yellow, green, blue, purple, pink, red` plus `<name>_background` variants.
 - The API **replaces the whole row**. Re-send all five cells; copy untouched cells (Outline, Plan, English model, Vietnamese) byte-for-byte from the retrieved JSON.
 - Batch at most 2–3 row updates per message. Larger parallel payloads risk truncation → `JSON Parse error: Unterminated string`. Retry truncated rows individually.
+- **Inline code vs. font colors:** Notion renders `code: true` with its default red monospace look only when `color: "default"`; an explicit role color (yellow/red/blue/gray…) persists *inside* the code span. If the user says "mark as code doesn't turn red like default", that is expected rendering, not data loss. When asked to mark-as-code a range, set `color: "default"` on those segments (and drop role bold/italic for the pure default code look) unless they explicitly want the role color kept inside the code.
 - Verification: re-read the page afterwards and spot-check one row.
 
 ### Segment-building checklist
