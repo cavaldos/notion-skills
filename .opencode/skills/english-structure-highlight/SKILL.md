@@ -31,7 +31,6 @@ Use this when the user does not specify colors. Always state the legend before a
 
 Notes:
 
-- Notion renders the **yellow font** faintly on white backgrounds. If readability matters, offer `yellow_background` (highlighter-pen effect, black text) as an alternative before applying.
 - Red + bold carries the strongest visual weight, which is why the verb uses it by default.
 - The legend is capped at **7 layers**. Do not add more colors without an explicit user request — past ~7 the page becomes unreadable and defeats the purpose of at-a-glance structure reading.
 
