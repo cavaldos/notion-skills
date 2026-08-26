@@ -1,0 +1,107 @@
+{
+  "$comment": "Connecteurs bank for TCF Tâche 3 (and reusable in Tâche 2 commentary). Ranked by exam value: tier 1 connectors are expected at B2 and lift the cohesion score; use at least one from each functional row. Never stack more than 2 connectors per sentence.",
+  "tiers": {
+    "tier1_b2_core": [
+      "en revanche",
+      "cependant",
+      "néanmoins",
+      "toutefois",
+      "par ailleurs",
+      "ainsi",
+      "c'est pourquoi",
+      "quant à",
+      "force est de constater que",
+      "il me semble que"
+    ],
+    "tier2_solid": [
+      "par contre",
+      "de plus",
+      "en effet",
+      "donc",
+      "pourtant",
+      "d'une part ... d'autre part",
+      "à mon avis",
+      "je pense que",
+      "grâce à / à cause de"
+    ],
+    "tier3_avoid_overuse": [
+      "et puis (oral register)",
+      "aussi (sentence-initial, ambiguous)",
+      "mais (fine but basic — vary it)"
+    ]
+  },
+  "by_function": {
+    "cadrer_le_theme": [
+      "De nos jours, la question de [X] divise l'opinion publique.",
+      "Depuis quelques années, [X] suscite un vif débat.",
+      "Le débat sur [X] fait rage depuis des années."
+    ],
+    "rapporter_document": [
+      "Selon le premier document, ...",
+      "D'après le premier texte, l'auteur affirme que ...",
+      "Le second texte défend l'idée que ...",
+      "Pour l'un, ..., pour l'autre, ...",
+      "Le document met en avant le fait que ..."
+    ],
+    "opposition": [
+      "en revanche",
+      "cependant",
+      "néanmoins",
+      "toutefois",
+      "par contre",
+      "à l'inverse",
+      "quant à",
+      "alors que + indicatif"
+    ],
+    "addition": [
+      "de plus",
+      "par ailleurs",
+      "en outre",
+      "également",
+      "d'autre part"
+    ],
+    "cause_consequence": [
+      "car",
+      "puisque",
+      "ainsi",
+      "donc",
+      "c'est pourquoi",
+      "grâce à / en raison de",
+      "de ce fait"
+    ],
+    "concession_subjonctif": [
+      "Bien que + subjonctif : Bien que ce soit vrai, ...",
+      "Quoique + subjonctif",
+      "même si + indicatif",
+      "Certes ..., mais ...",
+      "Malgré + nom"
+    ],
+    "exprimer_opinion": [
+      "à mon avis",
+      "selon moi",
+      "il me semble que",
+      "je considère que",
+      "je suis convaincu(e) que",
+      "j'ai tendance à penser que",
+      "force est de constater que",
+      "il n'en demeure pas moins que"
+    ],
+    "proposer_solution": [
+      "La solution ne serait pas de ..., mais plutôt de ...",
+      "L'idéal serait de trouver un équilibre entre ... et ...",
+      "Il serait préférable de ...",
+      "Une piste intéressante consisterait à ..."
+    ],
+    "conclure": [
+      "En conclusion, ...",
+      "Pour conclure, ...",
+      "Au final, il apparaît que ..."
+    ]
+  },
+  "usage_notes": [
+    "Partie 1 needs exactly 1 cadre + 1 rapport doc1 + 1 opposition + 1 rapport doc2.",
+    "Partie 2 needs: opinion marker, 1 addition, 1 concession or hypothesis, 1 consequence/solution connector.",
+    "Subjunctive triggers worth showing off at B2+: bien que, quoique, pour que, afin que, il faut que, bien qu'il soit possible que.",
+    "Hypothesis pattern B2: Si + imparfait → conditionnel présent (Si on limitait les écrans, les enfants liraient plus)."
+  ]
+}

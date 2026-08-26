@@ -1,0 +1,74 @@
+{
+  "$comment": "Scoring anchors and conversions for the tcf-writing-review skill. Sources: France Éducation international (manuel du candidat TCF TP/QC/CA, exemple d'épreuve EE), grille CECRL note /20, TCF Canada NCLC mapping (canada.ca Express Entry). Anchors are calibrated descriptions of what a criterion looks like AT each band — interpolate between them.",
+  "note_to_cefr": {
+    "$comment": "Expression écrite is scored on 20 points by double blind correction; the note converts to a CEFR level.",
+    "A1": "1/20",
+    "A2": "2-5/20",
+    "B1": "6-9/20",
+    "B2": "10-13/20",
+    "C1": "14-17/20",
+    "C2": "18-20/20"
+  },
+  "tcf_canada_nclc_ecrit": {
+    "$comment": "NCLC bands for expression écrite per canada.ca. Give as an estimate only.",
+    "NCLC_10": "note 16-20 (score 549-699)",
+    "NCLC_9": "note 14-15 (score 523-548)",
+    "NCLC_8": "note 12-13 (score 503-522)",
+    "NCLC_7": "note 10-11 (score 458-502)",
+    "NCLC_6": "note 7-9 (score 398-457)",
+    "NCLC_5": "note 6 (score 369-397)"
+  },
+  "criteria_scale": {
+    "$comment": "Each of the 4 criteria is rated /5; sum = note /20.",
+    "5": [
+      "Consigne: tous les points traités, format et registre impeccables, longueur idéale",
+      "Faits: informations riches, exemples précis et développés",
+      "Langue: vocabulaire varié et précis, structures complexes majoritairement correctes, rares coquilles",
+      "Cohérence: organisation limpide, connecteurs variés et justes, transitions parfaites"
+    ],
+    "4": [
+      "Consigne: tous points traités avec de petits manques; registre globalement adapté",
+      "Faits: contenu clair et pertinent mais développement inégal",
+      "Langue: bon vocabulaire avec quelques répétitions; grammaire correcte avec erreurs mineures non gênantes",
+      "Cohérence: texte structuré, connecteurs présents parfois répétitifs"
+    ],
+    "3": [
+      "Consigne: un point manqué ou partiellement traité OU registre inadapté par endroits",
+      "Faits: informations compréhensibles mais listées, exemples génériques",
+      "Langue: vocabulaire adéquat mais limité; erreurs grammaticales fréquentes sans empêcher la compréhension",
+      "Cohérence: progression visible mais liens logiques faibles ou connecteurs basiques (mais, et, donc)"
+    ],
+    "2": [
+      "Consigne: plusieurs points manqués OU hors-format OU longueur problématique",
+      "Faits: contenu confus, peu pertinent ou très superficiel",
+      "Langue: vocabulaire restreint et imprécis; erreurs systématiques gênant la lecture",
+      "Cohérence: pas de structure claire, idées juxtaposées"
+    ],
+    "1": [
+      "Consigne: consigne largement ignorée",
+      "Faits: message à peine identifiable",
+      "Langue: fragments, mots isolés, interférences massives",
+      "Cohérence: absence totale d'organisation"
+    ]
+  },
+  "a1_non_atteint_triggers": [
+    "chaque tâche ne respecte pas le nombre de mots demandé",
+    "production hors-sujet",
+    "une ou plusieurs tâches non réalisées",
+    "phrases recopiées du sujet ou des documents",
+    "(papier) écriture illisible / rédigé sur le brouillon"
+  ],
+  "task_limits": {
+    "tache1": { "min": 60, "max": 120, "target": "90-110", "partie1": null, "partie2": null },
+    "tache2": { "min": 120, "max": 150, "target": "130-145", "partie1": null, "partie2": null },
+    "tache3": { "min": 120, "max": 180, "target": "150-170", "partie1": "40-60 mots: présenter les deux opinions avec ses propres mots", "partie2": "80-120 mots: position argumentée" }
+  },
+  "b2_checklist": [
+    "imparfait vs passé composé contrastés dans le récit",
+    "au moins une structure en subjonctif (bien que, il faut que) ou hypothèse (si + imparfait → conditionnel)",
+    "connecteurs tier-1 variés (en revanche, néanmoins, ainsi, quant à...)",
+    "registre cohérent avec le destinataire (tu/vous)",
+    "aucune phrase copiée du sujet ou des documents",
+    "longueur dans les limites selon le comptage FEI"
+  ]
+}
