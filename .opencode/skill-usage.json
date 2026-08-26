@@ -1,0 +1,30 @@
+{
+  "sessions": {
+    "sessions": {
+      "sessions": {
+        "ses_fc432d38bffeAszIygY1ATaEjg": {
+          "skills": {
+            "toeic-essay": {
+              "name": "toeic-essay",
+              "count": 1,
+              "firstUsedAt": "2026-08-26T02:01:55.422Z",
+              "lastUsedAt": "2026-08-26T02:01:55.422Z"
+            }
+          },
+          "updatedAt": "2026-08-26T02:01:55.422Z"
+        }
+      },
+      "ses_fc42a6a37ffeAXJk5tSvFGHD5d": {
+        "skills": {
+          "toeic-essay": {
+            "name": "toeic-essay",
+            "count": 1,
+            "firstUsedAt": "2026-08-26T02:11:21.554Z",
+            "lastUsedAt": "2026-08-26T02:11:21.554Z"
+          }
+        },
+        "updatedAt": "2026-08-26T02:11:21.554Z"
+      }
+    }
+  }
+}
