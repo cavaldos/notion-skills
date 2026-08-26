@@ -1,33 +1,41 @@
 /**
  * tool-tracker — OpenCode TUI sidebar plugin.
  *
- * Shows in the right sidebar:
- *  - every tool call of the active session (live status icons)
+ * Shows in the right sidebar, after all built-in sections:
  *  - an aggregated "Skills" section counting native `skill` tool invocations
+ *  - every tool call of the active session (live status icons)
  *
  * Registered from .opencode/tui.json:
  *   { "plugin": ["./plugins/tool-tracker.tsx"] }
  *
- * Data source: api.state.session.messages() — the same synced TUI state
- * the built-in sidebar sections (context / mcp / todo / files) render from.
+ * Data source: api.state.session.messages() + api.state.part(messageID) —
+ * the same synced TUI state the built-in sidebar sections
+ * (context / mcp / todo / files) render from. Messages come back flat;
+ * their tool parts live under state.part keyed by message id.
  */
 
 /** @jsxImportSource @opentui/solid */
 
+import { createSignal, Show } from "solid-js"
 import type {
   TuiPlugin,
   TuiPluginApi,
   TuiPluginModule,
+  TuiSlotContext,
   TuiSlotPlugin,
 } from "@opencode-ai/plugin/tui"
 
 const ID = "tool-tracker"
-/** Render above built-in sections: context 100, mcp 200, lsp 300, todo 400, files 500. */
-const ORDER = 60
+/** Render below built-in sidebar sections (context 100, mcp 200, lsp 300,
+ *  todo 400, files 500): Skills first, then Tools. */
+const SKILLS_ORDER = 600
+const TOOLS_ORDER = 700
+/** Like the built-in MCP/Todo sections: the toggle only appears (and
+ *  collapses) once there are more than this many rows. */
+const TOGGLE_AFTER = 2
 const MAX_TOOLS = 14
 const TITLE_MAX = 34
 
-type RecordOf<T extends object> = { [K in keyof T]: unknown }
 type UnknownRecord = Record<string, unknown>
 
 const isRecord = (value: unknown): value is UnknownRecord =>
@@ -64,20 +72,17 @@ const normalizeStatus = (value: unknown): ToolStatus => {
   }
 }
 
-/** Extract tool-call rows from session messages, tolerating either
- *  `{ info, parts }` envelopes or flat message records. */
-const extractToolRows = (input: unknown): ToolRow[] => {
-  if (!Array.isArray(input)) return []
+/** Extract tool-call rows from the session's messages and their parts. */
+const extractToolRows = (messages: unknown, partsOf: (messageId: string) => unknown): ToolRow[] => {
+  if (!Array.isArray(messages)) return []
   const rows: ToolRow[] = []
 
-  for (const entry of input) {
-    if (!isRecord(entry)) continue
-    const info = isRecord(entry.info) ? entry.info : entry
-    const parts = entry.parts ?? info.parts
-    if (!Array.isArray(parts)) continue
-    const messageId = asString(info.id) ?? String(rows.length)
+  for (const message of messages) {
+    if (!isRecord(message)) continue
+    const messageId = asString(message.id)
+    if (!messageId) continue
 
-    for (const raw of parts) {
+    for (const raw of Array.isArray(partsOf(messageId)) ? (partsOf(messageId) as unknown[]) : []) {
       if (!isRecord(raw) || raw.type !== "tool") continue
       const state = isRecord(raw.state) ? raw.state : {}
       rows.push({
@@ -94,11 +99,8 @@ const extractToolRows = (input: unknown): ToolRow[] => {
 
 const readToolRows = (api: TuiPluginApi, sessionId: string): ToolRow[] => {
   try {
-    const state = api.state as unknown as RecordOf<{ session: RecordOf<{ messages: (id: string) => unknown }> }>
-    const session = isRecord(state.session) ? state.session : undefined
-    const messages = session?.messages
-    if (typeof messages !== "function") return []
-    return extractToolRows(messages.call(session, sessionId))
+    const messages = api.state.session.messages(sessionId)
+    return extractToolRows(messages, (messageId) => api.state.part(messageId))
   } catch {
     return []
   }
@@ -122,16 +124,17 @@ const skillNameOf = (state: UnknownRecord): string => {
 }
 
 /** Aggregate native `skill` tool calls of the session into counted rows,
- *  ordered by most recent use. Tolerates `{ info, parts }` envelopes
- *  or flat message records, same as extractToolRows. */
-const extractSkillRows = (input: unknown): SkillRow[] => {
-  if (!Array.isArray(input)) return []
+ *  ordered by most recent use. */
+const extractSkillRows = (messages: unknown, partsOf: (messageId: string) => unknown): SkillRow[] => {
+  if (!Array.isArray(messages)) return []
   const calls: { name: string; status: ToolStatus }[] = []
 
-  for (const entry of input) {
-    if (!isRecord(entry)) continue
-    const info = isRecord(entry.info) ? entry.info : entry
-    const parts = entry.parts ?? info.parts
+  for (const message of messages) {
+    if (!isRecord(message)) continue
+    const messageId = asString(message.id)
+    if (!messageId) continue
+
+    const parts = partsOf(messageId)
     if (!Array.isArray(parts)) continue
 
     for (const raw of parts) {
@@ -164,11 +167,8 @@ const extractSkillRows = (input: unknown): SkillRow[] => {
 
 const readSkillRows = (api: TuiPluginApi, sessionId: string): SkillRow[] => {
   try {
-    const state = api.state as unknown as RecordOf<{ session: RecordOf<{ messages: (id: string) => unknown }> }>
-    const session = isRecord(state.session) ? state.session : undefined
-    const messages = session?.messages
-    if (typeof messages !== "function") return []
-    return extractSkillRows(messages.call(session, sessionId))
+    const messages = api.state.session.messages(sessionId)
+    return extractSkillRows(messages, (messageId) => api.state.part(messageId))
   } catch {
     return []
   }
@@ -226,64 +226,113 @@ const statusColor = (status: ToolStatus, skin: Skin): string => {
   }
 }
 
-const createTracker = (api: TuiPluginApi): TuiSlotPlugin => ({
-  order: ORDER,
+/** "Skills" section — hidden while no skill has been invoked. Collapsible
+ *  like the built-in MCP section: click the header once there are more
+ *  than TOGGLE_AFTER rows; collapsed shows a one-line summary. */
+const createSkillsSection = (api: TuiPluginApi): TuiSlotPlugin => ({
+  order: SKILLS_ORDER,
   slots: {
-    sidebar_content(ctx, value) {
+    sidebar_content(ctx: TuiSlotContext, value: { session_id?: string }) {
       const skin = look(ctx.theme.current)
-      // Read inside JSX expressions so updates stay reactive with the host store.
-      const sessionId = asString(
-        (isRecord(value) ? (value as UnknownRecord).session_id : undefined),
-      )
-
-      if (!sessionId) {
-        return (
-          <box flexDirection="column">
-            <text fg={skin.accent}>
-              <b>Tools</b>
-            </text>
-            <text fg={skin.muted}>no active session</text>
-          </box>
-        )
-      }
+      const [expanded, setExpanded] = createSignal(true)
 
       return (
         <box flexDirection="column">
-          <text fg={skin.accent}>
-            <b>Tools</b>
-          </text>
           {(() => {
-            const rows = readToolRows(api, sessionId)
-            if (rows.length === 0) {
-              return (
-                <text fg={skin.muted}>no tool calls yet</text>
-              )
-            }
-            return rows.map((row) => (
-              <text>
-                <span style={{ fg: statusColor(row.status, skin) }}>{STATUS_ICON[row.status]} </span>
-                <span style={{ fg: skin.text }}>{row.tool}</span>
-                {row.title ? <span style={{ fg: skin.muted }}> {row.title}</span> : null}
-              </text>
-            ))
-          })()}
-          {(() => {
-            const skills = readSkillRows(api, sessionId)
-            if (skills.length === 0) return null
-            return (
-              <box flexDirection="column">
+            const id = asString(isRecord(value) ? (value as UnknownRecord).session_id : undefined)
+            const skills = id ? readSkillRows(api, id) : []
+            if (!id || skills.length === 0) return <box />
+            const collapsible = skills.length > TOGGLE_AFTER
+            const uses = skills.reduce((sum, skill) => sum + skill.count, 0)
+            return [
+              <box flexDirection="row" gap={1} onMouseDown={() => collapsible && setExpanded((v) => !v)}>
+                <Show when={collapsible}>
+                  <text fg={skin.text}>{expanded() ? "▼" : "▶"}</text>
+                </Show>
                 <text fg={skin.accent}>
                   <b>Skills</b>
                 </text>
-                {skills.map((skill) => (
-                  <text>
-                    <span style={{ fg: statusColor(skill.status, skin) }}>{STATUS_ICON[skill.status]} </span>
-                    <span style={{ fg: skin.text }}>{skill.name}</span>
-                    {skill.count > 1 ? <span style={{ fg: skin.muted }}> ×{skill.count}</span> : null}
+                <Show when={!expanded() && collapsible}>
+                  <text fg={skin.muted}> ({skills.length} skills, {uses} calls)</text>
+                </Show>
+              </box>,
+              ...((expanded() || !collapsible)
+                ? skills.map((skill) => (
+                    <text>
+                      <span style={{ fg: statusColor(skill.status, skin) }}>{STATUS_ICON[skill.status]} </span>
+                      <span style={{ fg: skin.text }}>{skill.name}</span>
+                      {skill.count > 1 ? <span style={{ fg: skin.muted }}> ×{skill.count}</span> : null}
+                    </text>
+                  ))
+                : []),
+            ]
+          })()}
+        </box>
+      )
+    },
+  },
+})
+
+/** "Tools" section — every tool call of the session, newest at the bottom.
+ *  Collapsible like the built-in MCP section. */
+const createToolsSection = (api: TuiPluginApi): TuiSlotPlugin => ({
+  order: TOOLS_ORDER,
+  slots: {
+    sidebar_content(ctx: TuiSlotContext, value: { session_id?: string }) {
+      const skin = look(ctx.theme.current)
+      const [expanded, setExpanded] = createSignal(true)
+      const sessionId = () =>
+        asString(isRecord(value) ? (value as UnknownRecord).session_id : undefined)
+
+      return (
+        <box flexDirection="column">
+          {(() => {
+            const id = sessionId()
+            const rows = id ? readToolRows(api, id) : []
+            if (!id) {
+              return [
+                <text fg={skin.accent}>
+                  <b>Tools</b>
+                </text>,
+                <text fg={skin.muted}>no active session</text>,
+              ]
+            }
+            if (rows.length === 0) {
+              return [
+                <text fg={skin.accent}>
+                  <b>Tools</b>
+                </text>,
+                <text fg={skin.muted}>no tool calls yet</text>,
+              ]
+            }
+            const collapsible = rows.length > TOGGLE_AFTER
+            const failed = rows.filter((row) => row.status === "error").length
+            const running = rows.filter((row) => row.status === "running").length
+            return [
+              <box flexDirection="row" gap={1} onMouseDown={() => collapsible && setExpanded((v) => !v)}>
+                <Show when={collapsible}>
+                  <text fg={skin.text}>{expanded() ? "▼" : "▶"}</text>
+                </Show>
+                <text fg={skin.accent}>
+                  <b>Tools</b>
+                </text>
+                <Show when={!expanded() && collapsible}>
+                  <text fg={skin.muted}>
+                    {" ("}{rows.length} calls{failed > 0 ? `, ${failed} failed` : ""}
+                    {running > 0 ? `, ${running} running` : ""}{")"}
                   </text>
-                ))}
-              </box>
-            )
+                </Show>
+              </box>,
+              ...((expanded() || !collapsible)
+                ? rows.map((row) => (
+                    <text>
+                      <span style={{ fg: statusColor(row.status, skin) }}>{STATUS_ICON[row.status]} </span>
+                      <span style={{ fg: skin.text }}>{row.tool}</span>
+                      {row.title ? <span style={{ fg: skin.muted }}> {row.title}</span> : null}
+                    </text>
+                  ))
+                : []),
+            ]
           })()}
         </box>
       )
@@ -292,7 +341,8 @@ const createTracker = (api: TuiPluginApi): TuiSlotPlugin => ({
 })
 
 const tui: TuiPlugin = async (api) => {
-  api.slots.register(createTracker(api))
+  api.slots.register(createSkillsSection(api))
+  api.slots.register(createToolsSection(api))
 }
 
 const plugin: TuiPluginModule & { id: string } = {
