@@ -16,7 +16,7 @@ Color-code the grammatical skeleton of English sentences so that anyone can read
 
 ## Default Legend
 
-Use this when the user does not specify colors. Always state the legend before applying it; let the user override any entry.
+Use this when the user does not specify colors. Apply it **immediately without waiting for confirmation**; include the legend table in your final summary and note that any entry can be overridden afterwards.
 
 | Grammar role | Annotation (`annotations` values) |
 | --- | --- |
@@ -89,7 +89,7 @@ Before sending an update, verify programmatically or by eye:
 
 ## Workflow
 
-1. **Confirm legend** — propose the default legend (or the user's custom colors) in one short table; proceed once confirmed.
+1. **Apply legend immediately** — use the default legend (or the user's custom colors if given) right away. Do NOT ask for confirmation. State the legend used in the final summary so the user can request changes.
 2. **Locate targets** — read the page; identify table rows or blocks holding the English text.
 3. **Retrieve exact JSON** for every row to modify.
 4. **Analyze** each sentence into roles per the classification rules above; produce a segmentation plan.
