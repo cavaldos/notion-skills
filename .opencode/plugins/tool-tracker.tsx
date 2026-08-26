@@ -94,7 +94,9 @@ const extractToolRows = (messages: unknown, partsOf: (messageId: string) => unkn
     }
   }
 
-  return rows.slice(-MAX_TOOLS)
+  // Keep the most recent calls, newest first: every new call lands on
+  // top and pushes previously-called (older) tools further down.
+  return rows.slice(-MAX_TOOLS).reverse()
 }
 
 const readToolRows = (api: TuiPluginApi, sessionId: string): ToolRow[] => {
@@ -258,12 +260,12 @@ const createSkillsSection = (api: TuiPluginApi): TuiSlotPlugin => ({
               </box>,
               ...((expanded() || !collapsible)
                 ? skills.map((skill) => (
-                    <text>
-                      <span style={{ fg: statusColor(skill.status, skin) }}>{STATUS_ICON[skill.status]} </span>
-                      <span style={{ fg: skin.text }}>{skill.name}</span>
-                      {skill.count > 1 ? <span style={{ fg: skin.muted }}> ×{skill.count}</span> : null}
-                    </text>
-                  ))
+                  <text>
+                    <span style={{ fg: statusColor(skill.status, skin) }}>{STATUS_ICON[skill.status]} </span>
+                    <span style={{ fg: skin.text }}>{skill.name}</span>
+                    {skill.count > 1 ? <span style={{ fg: skin.muted }}> ×{skill.count}</span> : null}
+                  </text>
+                ))
                 : []),
             ]
           })()}
@@ -273,7 +275,8 @@ const createSkillsSection = (api: TuiPluginApi): TuiSlotPlugin => ({
   },
 })
 
-/** "Tools" section — every tool call of the session, newest at the bottom.
+/** "Tools" section — every tool call of the session, newest at the top:
+ *  a fresh call jumps to first place and older calls get pushed down.
  *  Collapsible like the built-in MCP section. */
 const createToolsSection = (api: TuiPluginApi): TuiSlotPlugin => ({
   order: TOOLS_ORDER,
@@ -325,12 +328,12 @@ const createToolsSection = (api: TuiPluginApi): TuiSlotPlugin => ({
               </box>,
               ...((expanded() || !collapsible)
                 ? rows.map((row) => (
-                    <text>
-                      <span style={{ fg: statusColor(row.status, skin) }}>{STATUS_ICON[row.status]} </span>
-                      <span style={{ fg: skin.text }}>{row.tool}</span>
-                      {row.title ? <span style={{ fg: skin.muted }}> {row.title}</span> : null}
-                    </text>
-                  ))
+                  <text>
+                    <span style={{ fg: statusColor(row.status, skin) }}>{STATUS_ICON[row.status]} </span>
+                    <span style={{ fg: skin.text }}>{row.tool}</span>
+                    {row.title ? <span style={{ fg: skin.muted }}> {row.title}</span> : null}
+                  </text>
+                ))
                 : []),
             ]
           })()}
